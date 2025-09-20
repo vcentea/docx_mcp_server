@@ -231,35 +231,31 @@ Only these files are required to run the server:
 
 Everything else can be excluded (old versions, environment files, legacy folders, tests, samples).
 
-## Push to GitHub (Windows)
-Prepare a clean folder with only the necessary files and push to `main`:
+## Usage Examples
+
+### Running as STDIO Server (Default)
+For use with MCP clients that spawn the server as a subprocess:
 
 ```bat
-set SRC="E:\Google Drive AInnovate\vlad\_PROJECTS\contract_manager"
-set DEST="E:\Google Drive AInnovate\vlad\_PROJECTS\docx_mcp_server_clean"
-
-mkdir %DEST%
-copy %SRC%\mcp_server.py %DEST%\
-copy %SRC%\patch_json.py %DEST%\
-copy %SRC%\docx2json_runs_only.py %DEST%\
-copy %SRC%\docx2json_orchestrate.py %DEST%\
-copy %SRC%\json2docx_structured.py %DEST%\
-copy %SRC%\requirements.txt %DEST%\
-copy %SRC%\README.md %DEST%\
-
-cd /d %DEST%
-git init
-git branch -M main
-git add .
-git commit -m "feat: initial DOCX MCP server minimal set"
-git remote add origin https://github.com/vcentea/docx_mcp_server.git
-rem If the remote has existing commits (e.g., LICENSE), pull and merge first:
-rem git pull origin main --allow-unrelated-histories --no-edit
-
-git push -u origin main
+.venv\Scripts\activate
+python mcp_server.py
 ```
 
-If `git push` is rejected due to non-fast-forward, either pull with `--allow-unrelated-histories` as shown, or force push if appropriate for your repository policy (`git push -f`).
+### Running as HTTP Server
+For accessing the server from HTTP clients:
+
+```bat
+.venv\Scripts\activate
+python mcp_server.py --transport http --host 0.0.0.0 --port 8778 --path /mcp
+```
+
+This starts an HTTP server on `http://0.0.0.0:8778/mcp` that can be accessed by HTTP clients supporting the MCP protocol.
+
+### Command Line Options
+- `--transport`: Transport type (`stdio`, `http`, `sse`, `ws`)
+- `--host`: Host to bind to (default: `127.0.0.1`)
+- `--port`: Port to listen on (default: `8765`)
+- `--path`: URL path for HTTP transport (default: `/mcp`)
 
 ## License
 This project is published under the MIT License. See the repository for details.
