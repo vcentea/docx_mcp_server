@@ -1,0 +1,6 @@
+mcp>=1.13.0
+lxml>=4.9.0
+python-docx>=0.8.11
+uvicorn>=0.30.0
+sse-starlette>=2.1.0
+pydantic>=2.0.0
